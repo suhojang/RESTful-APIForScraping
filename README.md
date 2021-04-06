@@ -1,15 +1,15 @@
-- 프로젝트 환경
+- Developer 환경
   1) 전자정부 프레임워크 3.8.0
   2) jdk 1.8
   3) tomcat9
 
 
-- 배포 환경
+- Server 환경
   1) jdk 1.8
   2) tomcat9
   3) docker
   
-- 배포 방식
+- Deploy 방식
   1) docker images push/pull
   2) docker-compose up
 
