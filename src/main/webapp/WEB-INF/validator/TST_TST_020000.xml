@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE xml>
+<validator desc="테스트2 parameter validator" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="./params-validator.xsd">
+	<!-- 화면상의 input 객체에 대한 입력가능문자 제어 -->
+	<form>
+		<input id="p28"	type="ascii"			maxlength="20"	readonly="false"	disabled="false"	placeholder="ascii"			title="ascii"			desc="ascii"			/>
+		<input id="p29"	type="any"				maxlength="20"	readonly="false"	disabled="false"	placeholder="any"			title="any"				desc="any"				/>
+		<input id="p30"	type="pdblcurrency"		maxlength="20"	readonly="false"	disabled="false"	placeholder="pdblcurrency"	title="pdblcurrency"	desc="pdblcurrency"		/>
+		<input id="p31"	type="ndblcurrency"		maxlength="20"	readonly="false"	disabled="false"	placeholder="ndblcurrency"	title="ndblcurrency"	desc="ndblcurrency"		/>
+	</form>
+	
+	<!-- 화면에서 발생하는 모든 server action에 대한 parameter validation -->
+	<action uri="/TST_TST_02000A" desc="테스트  요청2" encoding="utf-8" blockUndefined="true">
+		<param id="p28"	type="ascii"			required="true"	minBytes="4"	maxBytes="15"	focus="true"	target="p28"	desc="ascii"			/>
+		<param id="p29"	type="any"				required="true"	minBytes="4"	maxBytes="15"	focus="true"	target="p29"	desc="any"				/>
+		<param id="p30"	type="pdblcurrency"		required="true"	minBytes="4"	maxBytes="15"	focus="true"	target="p30"	desc="pdblcurrency"		/>
+		<param id="p31"	type="ndblcurrency"		required="true"	minBytes="4"	maxBytes="15"	focus="true"	target="p31"	desc="ndblcurrency"		/>
+	</action>
+	
+	<ref uri="/TST_TST_01000A"/>
+	
+</validator>

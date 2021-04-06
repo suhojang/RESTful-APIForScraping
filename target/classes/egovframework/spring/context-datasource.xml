@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:jdbc="http://www.springframework.org/schema/jdbc"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+        http://www.springframework.org/schema/jdbc  http://www.springframework.org/schema/jdbc/spring-jdbc-4.0.xsd">
+    
+    
+	<!-- mariaDB local -->
+	<!-- <bean id="dataSource" class="com.kwic.datasource.EncryptDatasource" destroy-method="close">
+		<property name="driverClassName" value="G3IWPvFFxjkkdcvXpyXPB2G77V22FQS6nwlTl7P4Mjw="></property>
+		<property name="url" value="IINaMUiUb82aSbdRkkp7t5B/wT9cPpDpJLG3DbXXfoqhyutTLhCfZw++zGofRJkm5Bt1YMrksJHmBBy/KENK1w=="></property>
+		<property name="username" value="OCa1tzsgKuJkhoMayfT0+A=="></property>
+		<property name="password" value="SMxUb4E3nZ68VbdgvhKmFw=="></property>
+        <property name="cryptoKey" value="ABCDEfghijk12345zxcvECXStyui0987"/>
+	</bean> -->
+	
+	<!-- mariaDB docker -->
+	<!-- <bean id="dataSource" class="com.kwic.datasource.EncryptDatasource" destroy-method="close">
+		<property name="driverClassName" value="G3IWPvFFxjkkdcvXpyXPB2G77V22FQS6nwlTl7P4Mjw="></property>
+		<property name="url" value="IINaMUiUb82aSbdRkkp7t8ht9SO3jz17lHaJ/88H78If3ml1fTeLWJkIxQzguoeByc6oqMLYEAQcwWPNzZ80FQ=="></property>
+		<property name="username" value="OCa1tzsgKuJkhoMayfT0+A=="></property>
+		<property name="password" value="SMxUb4E3nZ68VbdgvhKmFw=="></property>
+        <property name="cryptoKey" value="ABCDEfghijk12345zxcvECXStyui0987"/>
+	</bean> -->
+	
+	<!-- mariaDB server docker -->
+	<bean id="dataSource" class="com.kwic.datasource.EncryptDatasource" destroy-method="close">
+        <property name="driverClassName" value="G3IWPvFFxjkkdcvXpyXPB2G77V22FQS6nwlTl7P4Mjw="></property>
+        <property name="url" value="IINaMUiUb82aSbdRkkp7t2vZU1Zg3nSbsRSsAxtKGZMMfH+pv+7/2DKqP52Wqp/FbxNuWYFW1emrzhFYcCyqGw=="></property>
+        <property name="username" value="OCa1tzsgKuJkhoMayfT0+A=="></property>
+        <property name="password" value="SMxUb4E3nZ68VbdgvhKmFw=="></property>
+	    <property name="cryptoKey" value="ABCDEfghijk12345zxcvECXStyui0987"/>
+	    <property name="validationQuery" value="select 1" />
+    </bean>
+	
+</beans>

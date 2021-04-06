@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="project.service.impl.AGT_CRT_Mapper">
+	<!-- 인증서 조회 -->
+	<select id="AGT_CRT_S1000J" parameterType="Map" resultType="oMap"><![CDATA[
+		SELECT
+			CRTINF_SEQ
+			,CRTINF_CRTID
+			,CRTINF_USRID
+			,AGTINF_ID
+			,CRTINF_CRTNM
+			,CRTINF_EXPIRE
+			,CRTINF_YN
+			,CRTINF_RDT
+			,CRTINF_UDT
+		FROM TBAG_CRTINF
+		WHERE 1=1
+		AND CRTINF_YN = 'Y'
+		]]>
+		<if test="certId != null and certId != ''">
+	        <![CDATA[
+				AND CRTINF_CRTID	= #{certId}
+			]]>
+		</if>
+		<if test="agentId != null and agentId != ''">
+	        <![CDATA[
+				AND AGTINF_ID		= #{agentId}
+			]]>
+		</if>
+		<if test="userId != null and userId != ''">
+	        <![CDATA[
+	        	AND CRTINF_USRID	= #{userId}
+			]]>
+		</if><![CDATA[
+		ORDER BY CRTINF_SEQ DESC
+		LIMIT #{limit} OFFSET #{offset}
+	]]></select>
+	
+	<!-- 인증서 정보 조회 - 인증서 ID -->
+	<select id="AGT_CRT_V1000J" parameterType="Map" resultType="oMap"><![CDATA[
+		SELECT 
+			CRTINF_CRTID
+			,CRTINF_USRID
+			,AGTINF_ID
+			,CRTINF_CRTNM
+			,CRTINF_EXPIRE
+			,CRTINF_YN
+			,CRTINF_RDT
+			,CRTINF_UDT
+		FROM TBAG_CRTINF
+		WHERE 1=1
+			AND CRTINF_YN		= 'Y'
+			AND CRTINF_CRTID 	= #{certId}
+		]]><if test="userId != null and userId != ''">
+	        <![CDATA[
+	        	AND CRTINF_USRID	= #{userId}
+			]]>
+		</if>
+	</select>
+	
+	<!-- 인증서 정보 조회 - 인증서 ID -->
+	<select id="AGT_CRT_V1001J" parameterType="Map" resultType="oMap"><![CDATA[
+		SELECT
+			CRTINF_SEQ 
+			,CRTINF_CRTID
+			,CRTINF_USRID
+			,AGTINF_ID
+			,CRTINF_CRTNM
+			,CRTINF_EXPIRE
+			,CRTINF_YN
+			,CRTINF_RDT
+			,CRTINF_UDT
+		FROM TBAG_CRTINF
+		WHERE 1=1
+			AND CRTINF_CRTID 	= #{certId}
+			AND CRTINF_USRID	= #{userId}
+			AND AGTINF_ID		= #{agentId}
+		]]>
+	</select>
+	
+	<!-- 인증서정보 등록 -->
+	<insert id="AGT_CRT_I1000J" parameterType="Map"><![CDATA[
+		INSERT INTO TBAG_CRTINF(
+			CRTINF_SEQ
+			,CRTINF_CRTID
+			,CRTINF_USRID
+			,AGTINF_ID
+			,CRTINF_CRTNM
+			,CRTINF_EXPIRE
+			,CRTINF_YN
+			,CRTINF_RDT
+		)VALUES(
+			 #{crtinf_seq}
+			,#{certId}
+			,#{userId}
+			,#{agentId}
+			,#{certnm}
+			,#{expire}
+			,'Y'
+			,CURRENT_TIMESTAMP
+		)
+	]]></insert>
+	
+	<!-- 인증서정보 수정 -->
+	<update id="AGT_CRT_U1000J" parameterType="Map"><![CDATA[
+		UPDATE TBAG_CRTINF
+		SET CRTINF_USRID	= #{userId}
+			,AGTINF_ID		= #{agentId}
+			,CRTINF_CRTNM	= #{certnm}
+			,CRTINF_EXPIRE	= #{expire}
+			,CRTINF_YN 		= 'Y'
+		WHERE 1=1
+			AND CRTINF_CRTID = #{certId}
+			]]><if test="agentId != null and agentId != ''"><![CDATA[
+	        	AND AGTINF_ID	= #{agentId}
+			]]></if>
+			<if test="agentId != null and agentId != ''"><![CDATA[
+	        	AND CRTINF_USRID= #{userId}
+			]]></if>
+	</update>
+	
+	<!-- 인증서정보 수정 - 전체 사용여부 : N-->
+	<update id="AGT_CRT_U1001J" parameterType="Map"><![CDATA[
+		UPDATE TBAG_CRTINF
+		SET CRTINF_YN 		= 'N'
+		WHERE 1=1
+			AND CRTINF_CRTID 	= #{certId}
+			AND CRTINF_USRID	= #{userId}
+	]]></update>
+	
+	<!-- 인증서정보 삭제 -->
+	<delete id="AGT_CRT_D1000J" parameterType="Map"><![CDATA[
+		DELETE FROM TBAG_CRTINF 
+		WHERE 1=1
+			AND CRTINF_CRTID = #{certId}
+	]]></delete>
+</mapper>

@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="project.service.impl.AGT_AGT_Mapper">
+	<!-- Agent 조회 -->
+	<select id="AGT_AGT_S1000J" parameterType="Map" resultType="oMap"><![CDATA[
+		SELECT 
+			A.AGTINF_SEQ
+			,A.AGTINF_ID
+			,A.AGTINF_VER
+			,A.AGTINF_OS
+			,A.AGTINF_PRIP
+			,A.AGTINF_PBIP
+			,A.AGTINF_YN
+			,A.AGTINF_SYNDT
+			,A.AGTINF_RDT
+		FROM TBAG_AGTINF A
+		]]>
+		WHERE 1=1
+		AND A.AGTINF_YN	= 'Y'
+		<if test="agentId != null and agentId != ''">
+	        <![CDATA[
+				AND A.AGTINF_ID = #{agentId}
+			]]>
+		</if>
+		<if test="(userId != null and userId != '') or (certId != null and certId != '')">
+	        <![CDATA[
+				AND A.AGTINF_ID IN (
+					SELECT 
+						AGTINF_ID
+					FROM TBAG_CRTINF
+					WHERE 1=1
+					AND CRTINF_YN = 'Y'
+					]]>
+					<if test="userId != null and userId != ''">
+						<![CDATA[
+							AND CRTINF_USRID IN (${userId})
+						]]>
+					</if>
+					<if test="certId != null and certId != ''">
+						<![CDATA[
+							AND CRTINF_CRTID = #{certId}
+						]]>
+					</if><![CDATA[
+				)
+			]]>
+		</if>
+		<if test="power != null and power != ''">
+			<if test="power == 'on'">
+				<![CDATA[
+					AND (AGTINF_SYNDT IS NOT NULL AND AGTINF_SYNDT >= DATE_FORMAT(DATE_SUB(NOW(), INTERVAL ${time} MINUTE), '%Y%m%d%H%i%s'))
+				]]>
+			</if>
+			<if test="power == 'off'">
+				<![CDATA[
+					AND (AGTINF_SYNDT IS NULL OR AGTINF_SYNDT < DATE_FORMAT(DATE_SUB(NOW(), INTERVAL  ${time} MINUTE), '%Y%m%d%H%i%s'))
+				]]>
+			</if>
+		</if>
+		<![CDATA[
+		ORDER BY AGTINF_SEQ DESC
+		LIMIT #{limit} OFFSET #{offset}
+	]]></select>
+	
+	<!-- Agent ID에 해당하는 인증서 전체 조회 -->
+	<select id="AGT_AGT_S1001J" parameterType="Map" resultType="oMap"><![CDATA[
+		SELECT
+			CRTINF_SEQ
+			,CRTINF_CRTID
+			,CRTINF_USRID
+			,AGTINF_ID
+			,CRTINF_CRTNM
+			,CRTINF_EXPIRE
+			,CRTINF_YN
+			,CRTINF_RDT
+			,CRTINF_UDT
+		FROM TBAG_CRTINF
+		WHERE 1=1
+		AND CRTINF_YN = 'Y'
+		]]><if test="agentId != null and agentId != ''">
+	        <![CDATA[
+				AND agtinf_id = #{agentId}
+			]]></if>
+	</select>
+	
+	<!-- Agent정보 조회 - Agent ID -->
+	<select id="AGT_AGT_V1000J" parameterType="Map" resultType="oMap"><![CDATA[
+		SELECT 
+			A.AGTINF_SEQ
+			,A.AGTINF_ID
+			,A.AGTINF_VER
+			,A.AGTINF_OS
+			,A.AGTINF_PRIP
+			,A.AGTINF_PBIP
+			,A.AGTINF_KEY
+			,A.AGTINF_YN
+			,A.AGTINF_SYNDT
+			,A.AGTINF_RDT
+		FROM TBAG_AGTINF A
+		WHERE 1=1
+			AND A.AGTINF_YN	= 'Y'
+			AND A.AGTINF_ID = #{agentId}
+	]]></select>
+	
+	<!-- Agent정보 등록 -->
+	<insert id="AGT_AGT_I1000J" parameterType="Map"><![CDATA[
+		INSERT INTO TBAG_AGTINF(
+			AGTINF_SEQ
+			,AGTINF_ID
+			,AGTINF_VER
+			,AGTINF_OS
+			,AGTINF_PRIP
+			,AGTINF_PBIP
+			,AGTINF_YN
+			,AGTINF_RDT
+		)VALUES(
+			 #{agtinf_seq}
+			,#{agentId}
+			,#{version}
+			,#{os}
+			,#{privateIP}
+			,#{publicIP}
+			,'Y'
+			,CURRENT_TIMESTAMP
+		)
+	]]></insert>
+	
+	<!-- Agent정보 수정 -->
+	<update id="AGT_AGT_U1000J" parameterType="Map"><![CDATA[
+		UPDATE TBAG_AGTINF
+		SET AGTINF_VER		= #{version}
+			,AGTINF_OS		= #{os}
+			,AGTINF_PRIP	= #{privateIP}
+			,AGTINF_PBIP	= #{publicIP}
+		WHERE 1=1
+			AND AGTINF_ID = #{agentId}
+	]]></update>
+	
+	<!-- Agent정보 삭제 -->
+	<delete id="AGT_AGT_D1000J" parameterType="Map"><![CDATA[
+		DELETE FROM TBAG_AGTINF 
+		WHERE 1=1
+			AND AGTINF_ID = #{agentId}
+	]]></delete>
+	
+	<!-- 인증서 정보 삭제 -->
+	<delete id="AGT_AGT_D1001J" parameterType="Map"><![CDATA[
+		DELETE FROM TBAG_CRTINF 
+		WHERE 1=1
+			AND AGTINF_ID = #{agentId}
+	]]></delete>
+	
+	<!-- Agent정보 Master Key 추가 -->
+	<update id="AGT_AGT_U1001J" parameterType="Map"><![CDATA[
+		UPDATE TBAG_AGTINF
+		SET AGTINF_KEY		= #{key}
+		WHERE 1=1
+			AND AGTINF_ID = #{agentId}
+	]]></update>
+</mapper>

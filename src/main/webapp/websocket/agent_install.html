@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Agent Install</title>
+</head>
+<script type="text/javascript">
+function fn_install() {
+	location.href	= parent.document.URL.substring(0,parent.document.URL.indexOf("websocket/agent_install.html")) + "agent/AGENT_Setup.exe";
+}
+
+function fn_go_page() {
+	//초기의 대출화면으로 바로 가기
+	sleep(1000);
+	location.href = parent.document.URL.replace("agent_install.html", "agent_ws.html");
+	
+}
+
+function sleep(delay) {
+	var start = new Date().getTime();
+	while (new Date().getTime() < start + delay);
+}
+
+</script>
+<style>
+	input.button1 {
+		width: 100px;
+		height: 40px;
+		line-height: 10px; 		/* ie용 */
+		padding-bottom: 1px; 	/* 크롬,파폭,사파리등 */
+	}
+	
+	input.button2 {
+		width: 300px;
+		height: 40px; 
+		line-height: 10px; 		/* ie용 */
+		padding-bottom: 1px; 	/* 크롬,파폭,사파리등 */
+	}
+</style>
+<body>
+	<form>
+		<center>
+			<div>
+				<span><b><h3>Agent 설치 페이지입니다.</h3></b></span>
+			</div>
+			<table height=100>
+				<tr>
+					<td>
+						<b>※ 장기요양 Agent 프로그램을 사용하기 위해서는 반드시 설치하셔야 합니다.</b><br>
+						<b>&nbsp;&nbsp;&nbsp;&nbsp;설치가 완료되면 아래 장기요양 Agent 테스트 바로가기 버튼을 클릭해주시기 바랍니다.</b>
+					</td>
+					<td>
+						&nbsp;&nbsp;&nbsp;<input type="button" value="설   치" onclick="fn_install();" class="button1" ></input>
+					</td>
+				</tr>
+				<tr>
+					<td colspan="2" align="center">
+						<input type="button" value="장기요양 Agent 테스트 바로가기" onclick="fn_go_page();" class="button2" ></input>
+					</td>
+				</tr>
+			</table>
+		</center>
+	</form>
+</body>
+</html>

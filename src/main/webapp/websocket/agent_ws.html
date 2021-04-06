@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>WebSocket Test</title>
+	<script type="text/javascript">
+		var connect	= false;
+		var wsUrl	= "";	//websocket url infomation
+		
+		//1. initial websocket connection
+		function fn_init(){
+			fn_init_webSocket();
+		}
+		
+		//2. websokcet onopen, onclose, onmessage, onerror설정
+		function fn_init_webSocket(){
+			wsUrl	= document.getElementById("wsUrl").value;
+			
+			websocket	= new WebSocket(wsUrl);
+			websocket.onopen	= function(evt) {
+				fn_onopen(evt);
+			};
+			
+			websocket.onclose	= function(evt){
+				fn_onclose(evt);
+			};
+			
+			websocket.onmessage	= function(evt){
+				fn_onmessage(evt);
+			};
+			
+			websocket.onerror	= function(evt){
+				fn_onerror(evt);
+			};
+		}
+		
+		//websocket connect
+		function fn_onopen(evt){
+			connect	= true;
+			document.getElementById("outputData").value	= "";
+			fn_writeToScreen("websocket connected.\n");
+		}
+		
+		//websocket disconnect
+		function fn_onclose(evt){
+			connect	= false;
+			fn_writeToScreen("websocket disConnected.\n");
+		}
+		
+		//websocket response
+		function fn_onmessage(evt){
+			fn_writeToScreen("response message ==> \n" + evt.data + "\n");
+			websocket.close();
+		}
+		
+		//websocket response error
+		function fn_onerror(evt){
+			fn_writeToScreen("error message ==> \n" + evt.data);
+		}
+		
+		//websocket write message
+		function fn_writeToScreen(message){
+			document.getElementById("outputData").value += message +"\n";
+		}
+		
+		//websokcet message send
+		function fn_send(message){
+			document.getElementById("outputData").value	= "";
+			if(!connect){
+				alert("웹소켓 connect 후 재시도 하시기 바랍니다.");
+				return;
+			}else{
+				fn_writeToScreen("send message ==> \n" + message + "\n");
+				websocket.send(message);
+			}
+		}
+		
+		//websocket 수동 연결
+		function fn_connect(){
+			fn_init_webSocket();
+		}
+		
+		//websocket 수동 연결 해제
+		function fn_disconnect(){
+			websocket.onclose();
+		}
+		
+		window.addEventListener("load", fn_init, false);
+	</script>	
+</head>
+<body>
+	<h2>WebSocket Test</h2>
+	
+	요청 URL : <input type="text" id="wsUrl" name="wsUrl" size="45" value="wss://127.0.0.1:4649/CareAgent" /><br/><br/>
+	
+	<input type="button" onclick="javascript:fn_connect();" value="connect" />&nbsp;&nbsp;
+	<input type="button" onclick="javascript:fn_disconnect();" value="disconnect" />
+	
+	<h3>요청 데이터</h3>
+	<textarea rows="10" cols="60" id="sendData"></textarea><br/><br/>
+	<input type="button" onclick="javascript:fn_send(document.getElementById('sendData').value);" value="send" />
+	<br/>
+	
+	<h3>응답 데이터</h3>
+	<textarea rows="20" cols="100" id="outputData"></textarea>
+</body>
+</html>

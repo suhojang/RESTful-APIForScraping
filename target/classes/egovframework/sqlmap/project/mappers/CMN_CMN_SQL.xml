@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="project.service.impl.CMN_CMN_Mapper">
+
+	<update id="nextval" statementType="CALLABLE" parameterType="Map">
+		{call agentdb.SP_NEXTVAL(#{sqname, mode=IN, jdbcType=VARCHAR, javaType=string},#{RESULT, mode=OUT, jdbcType=VARCHAR, javaType=string})}
+	</update>
+	<update id="currentval" statementType="CALLABLE" parameterType="Map">
+		{call agentdb.SP_CURRVAL(#{sqname, mode=IN, jdbcType=VARCHAR, javaType=string},#{RESULT, mode=OUT, jdbcType=VARCHAR, javaType=string})}
+	</update>
+
+	<!-- 요청 로그 등록 -->
+	<insert id="log" parameterType="Map"><![CDATA[
+		INSERT INTO TBAG_LOG(
+			LOG_TIME
+			,LOG_IP
+			,LOG_URL
+			,LOG_REQ
+			,LOG_RES
+			,LOG_RDT
+		)VALUES(
+			#{log_time}
+			,#{log_ip}
+			,#{log_url}
+			,#{log_req}
+			,#{log_res}
+			,CURRENT_TIMESTAMP
+		)
+	]]></insert>
+</mapper>

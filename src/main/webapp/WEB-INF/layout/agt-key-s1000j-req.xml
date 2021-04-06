@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE xml>
+<layout desc="암호화 키 Encrypt 요청" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="./layout.xsd">
+
+	<field name="timestamp"		maxBytes="14"	required="Y"	type="C"	desc="요청시각" />
+	<field name="agentId"		maxBytes="36"	required="Y"	type="C"	desc="Agent 아이디" />
+	<field name="agentEncKey"	maxBytes="500"	required="Y"	type="C"	desc="암호화 키" />
+</layout>

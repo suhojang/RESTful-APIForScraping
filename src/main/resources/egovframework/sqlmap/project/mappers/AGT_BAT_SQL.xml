@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="project.service.impl.AGT_BAT_Mapper">
+	<!-- Batch 조회 -->
+	<select id="AGT_BAT_S1000J" parameterType="Map" resultType="oMap"><![CDATA[
+		SELECT
+			TSKBAT_SEQ
+			,TSKBAT_ID
+			,TSKBAT_NM
+			,TSKBAT_CRON
+			,DATE_FORMAT(TSKBAT_RDT, '%Y%m%d%H%i%s') AS TSKBAT_RDT
+			,DATE_FORMAT(TSKBAT_UDT, '%Y%m%d%H%i%s') AS TSKBAT_UDT
+		FROM TBAG_TSKBAT
+		WHERE 1=1
+		]]>
+	</select>
+	
+	<!-- Batch 정보 조회 - Batch ID -->
+	<select id="AGT_BAT_V1000J" parameterType="Map" resultType="oMap"><![CDATA[
+		SELECT
+			TSKBAT_SEQ
+			,TSKBAT_ID
+			,TSKBAT_NM
+			,TSKBAT_CRON
+			,DATE_FORMAT(TSKBAT_RDT, '%Y%m%d%H%i%s') AS TSKBAT_RDT
+			,DATE_FORMAT(TSKBAT_UDT, '%Y%m%d%H%i%s') AS TSKBAT_UDT
+		FROM TBAG_TSKBAT
+		WHERE 1=1
+			AND TSKBAT_ID 	= #{batchId}
+	]]></select>
+	
+	<!-- Batch정보 등록 -->
+	<insert id="AGT_BAT_I1000J" parameterType="Map"><![CDATA[
+		INSERT INTO TBAG_TSKBAT(
+			TSKBAT_SEQ
+			,TSKBAT_ID
+			,TSKBAT_NM
+			,TSKBAT_CRON
+			,TSKBAT_RDT
+			,TSKBAT_UDT
+		)VALUES(
+			 #{tskbat_seq}
+			,#{batchId}
+			,#{batchNm}
+			,#{cron}
+			,CURRENT_TIMESTAMP
+			,CURRENT_TIMESTAMP
+		)
+	]]></insert>
+	
+	<!-- Batch정보 수정 -->
+	<update id="AGT_BAT_U1000J" parameterType="Map"><![CDATA[
+		UPDATE TBAG_TSKBAT
+		SET
+			TSKBAT_NM	= #{batchNm}
+			TSKBAT_CRON	= #{cron}
+			TSKBAT_UDT	= CURRENT_TIMESTAMP
+		WHERE 1=1
+			AND TSKBAT_ID 	= #{batchId}
+	]]></update>
+	
+	<!-- Batch 구동 시간 정보 등록 -->
+	<update id="AGT_BAT_U1001J" parameterType="Map"><![CDATA[
+		UPDATE TBAG_TSKBAT
+		SET
+			TSKBAT_UDT	= CURRENT_TIMESTAMP
+		WHERE 1=1
+			AND TSKBAT_ID 	= #{batchId}
+	]]></update>
+	
+	<!-- Batch정보 삭제 -->
+	<delete id="AGT_BAT_D1000J" parameterType="Map"><![CDATA[
+		DELETE FROM TBAG_TSKBAT 
+		WHERE 1=1
+			AND TSKBAT_ID 	= #{batchId}
+	]]></delete>
+</mapper>

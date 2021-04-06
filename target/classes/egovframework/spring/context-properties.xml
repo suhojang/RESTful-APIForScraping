@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd">
+
+	<bean name="propertiesService" class="egovframework.rte.fdl.property.impl.EgovPropertyServiceImpl" destroy-method="destroy">
+		<property name="properties">
+	        <map>
+	        	<entry key="pageNo" value="1"/><!-- default 페이지 정보 -->
+	        	<entry key="limit" value="10"/><!-- default 페이지 조회 개수 -->
+	        	<entry key="encryptKey" value="A!B1C@D2E#F3GHIJKLMNOPQRSTUVWXYZ"/><!-- aes256 키 -->
+	        	<entry key="service-type" value="D"/><!-- D:develop T:test R:real -->
+	        	<entry key="isMaster" value="true"/><!-- 마스터서버여부 true/false -->
+	        	<entry key="debugQuery" value="true"/><!-- 쿼리 로그 보기 true/false -->
+	        	
+	        	<entry key="time" value="10"/><!-- agent on/off여부 판단 시간(단위:분) -->
+	        	
+	        	<entry key="server.callback" value="http://172.19.0.9:5000/api-agent/forward-callback" /><!-- 장기요양시스템 callback url -->
+	        	<!-- <entry key="server.callback" value="http://t-lk.semumate.co.kr/CON_ITR_02000A/" /> --><!-- 장기요양시스템 callback url -->
+	        	<entry key="agent.token" value="ZHV5bmZybXN3cWFzb3hraXBwcXVvaWt0Y21kcm1na2ttaWxnZmdvaG9ibmFhd2JpdmlmbXJoaG5tYWN6bGx3cWhnYnRjYmd2a2l4dmR4bmF4anRsd2ZlanhvaWtxeGJhZ25ycA=="/><!-- Agent token 정보 -->
+	        </map>
+		</property>
+	</bean>
+	
+</beans>	

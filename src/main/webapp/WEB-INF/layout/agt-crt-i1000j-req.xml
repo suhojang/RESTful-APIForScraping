@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE xml>
+<layout desc="인증서정보 등록 요청" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="./layout.xsd">
+
+	<field name="timestamp"		maxBytes="14"	required="Y"	type="C"	desc="요청시각" />
+	<field name="userId"		maxBytes="100"	required="Y"	type="C"	desc="사용자 아이디" />
+	<field name="certId"		maxBytes="68"	required="Y"	type="C"	desc="인증서 아이디" />
+	<field name="agentId"		maxBytes="36"	required="Y"	type="C"	desc="Agent 아이디" />
+	<field name="certnm"		maxBytes="150"	required="Y"	type="C"	desc="인증서명" />
+	<field name="expire"		maxBytes="50"	required="Y"	type="C"	desc="인증서 유효기간" />
+</layout>

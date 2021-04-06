@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE xml>
+<layout desc="스케쥴정보 등록 요청" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="./layout.xsd">
+
+	<field name="timestamp"		maxBytes="14"	required="Y"	type="C"	desc="요청시각" />
+	<field name="userId"		maxBytes="100"	required="Y"	type="C"	desc="사용자 아이디" />
+	<field name="certId"		maxBytes="68"	required="Y"	type="C"	desc="인증서 아이디" />
+	<field name="fcode"			maxBytes="15"	required="Y"	type="C"	desc="fcode정보" />
+	<field name="module"		maxBytes="10"	required="Y"	type="C"	desc="module정보" />
+	<field name="kind"			maxBytes="1"	required="Y"	type="C"	desc="배치유형(1:일회성, 2:반복성)" />
+	<field name="cron"			maxBytes="100"	required="Y"	type="C"	desc="스케쥴 cron식" />
+	<field name="data"			maxBytes="0"	required="Y"	type="C"	desc="스케쥴 요청데이터" />
+</layout>

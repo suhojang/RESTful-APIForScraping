@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="project.service.impl.AGT_SYN_Mapper">
+	<!-- Agent정보 동기화 -->
+	<update id="AGT_SYN_U1000J" parameterType="Map"><![CDATA[
+		UPDATE TBAG_AGTINF
+		SET AGTINF_VER		= #{version}
+			,AGTINF_OS		= #{os}
+			,AGTINF_PRIP	= #{privateIP}
+			,AGTINF_PBIP	= #{publicIP}
+			,AGTINF_SYNDT	= #{timestamp}
+		WHERE 1=1
+			AND AGTINF_ID = #{agentId}
+	]]></update>
+	
+	<!-- 인증서정보 삭제 -->
+	<delete id="AGT_SYN_D1000J" parameterType="Map"><![CDATA[
+		DELETE FROM TBAG_CRTINF 
+		WHERE 1=1
+			AND AGTINF_ID = #{agentId}
+	]]></delete>
+	
+	<!-- 인증서정보 등록 : 사용여부 'N' -->
+	<insert id="AGT_SYN_I1000J" parameterType="Map"><![CDATA[
+		INSERT INTO TBAG_CRTINF(
+			CRTINF_SEQ
+			,CRTINF_CRTID
+			,CRTINF_USRID
+			,AGTINF_ID
+			,CRTINF_CRTNM
+			,CRTINF_EXPIRE
+			,CRTINF_YN
+			,CRTINF_RDT
+		)VALUES(
+			 #{crtinf_seq}
+			,#{certId}
+			,#{userId}
+			,#{agentId}
+			,#{certnm}
+			,#{expire}
+			,'N'
+			,CURRENT_TIMESTAMP
+		)
+	]]></insert>
+	
+	<!-- 인증서 정보 조회 -->
+	<select id="AGT_SYN_V1000J" parameterType="Map" resultType="oMap"><![CDATA[
+		SELECT 
+			CRTINF_CRTID
+			,CRTINF_USRID
+			,AGTINF_ID
+			,CRTINF_CRTNM
+			,CRTINF_EXPIRE
+			,CRTINF_YN
+			,CRTINF_RDT
+			,CRTINF_UDT
+		FROM TBAG_CRTINF
+		WHERE 1=1
+			AND CRTINF_CRTID 	= #{certId}
+			AND CRTINF_USRID	= #{userId}
+	]]></select>
+</mapper>

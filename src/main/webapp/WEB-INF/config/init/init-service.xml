@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE xml>
+<init-service desc="웹 시작서비스 정보" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="./init-service.xsd">
+	<!-- 
+		service element를 반복하여 기술할 수 있습니다. 
+			name : 서비스명, 반드시 unique하여하 합니다.
+			service-class : 서비스 담당 class, package를 포함하여 기술합니다.
+			runnable : 서비스 실행여부, true/false
+			init-start : 서비스 실행 후 스케쥴 자동시작 여부, true/false
+			init-time : 스케쥴 시작 전 대기시간 (seconds)
+			sleep-time : 스케쥴 사이의 휴식시간 (seconds)
+			run-times : 스케쥴 반복 횟수, 0보다 작거나 같을 경우 무한반복, 0보다 클경우 지정된 횟수
+			init-params : 서비스 실행에 필요한 초기 변수값들
+	 -->
+	<!-- 
+	<service desc="웹 시작서비스 샘플">
+		<name>SampleInitService</name>
+		<service-class>project.init.SampleInitService</service-class>
+		<runnable>false</runnable>
+		<init-start>true</init-start>
+		<init-time>5</init-time>
+		<sleep-time>5</sleep-time>
+		<run-times>-1</run-times>
+		<init-params>
+			<param name="param-1" desc="sample param">sample param1</param>
+			<param name="param-2" desc="sample param">sample param2</param>
+		</init-params>
+	</service>
+	 -->
+</init-service>

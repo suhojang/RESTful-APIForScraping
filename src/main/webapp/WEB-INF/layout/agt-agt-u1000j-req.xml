@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE xml>
+<layout desc="Agent정보 수정 요청" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="./layout.xsd">
+
+	<field name="timestamp"		maxBytes="14"	required="Y"	type="C"	desc="요청시각" />
+	<field name="version"		maxBytes="20"	required="Y"	type="C"	desc="Agent 버전" />
+	<field name="os"			maxBytes="300"	required="Y"	type="C"	desc="Agent OS정보" />
+	<field name="privateIP"		maxBytes="15"	required="Y"	type="C"	desc="Agent 내부IP" />
+	<field name="publicIP"		maxBytes="15"	required="N"	type="C"	desc="Agent 외부IP" />
+</layout>

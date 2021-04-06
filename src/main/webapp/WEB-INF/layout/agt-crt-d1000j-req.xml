@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE xml>
+<layout desc="인증서정보 삭제 요청" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="./layout.xsd">
+
+	<field name="timestamp"		maxBytes="14"	required="Y"	type="C"	desc="요청시각" />
+</layout>

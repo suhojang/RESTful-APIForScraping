@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="project.service.impl.AGT_TSK_Mapper">
+	<!-- TASK 정보 조회(status 조건으로 결과값 조회도 가능) -->
+	<select id="AGT_TSK_S1000J" parameterType="Map" resultType="oMap"><![CDATA[
+		SELECT
+			A.TSKINF_SEQ
+			,A.TSKINF_ID
+			,A.SCHINF_ID
+			,A.TSKINF_EXCDT
+			,A.TSKINF_STS
+			,A.AGTINF_ID
+			,A.TSKINF_RST
+			,DATE_FORMAT(A.TSKINF_RSTDT, '%Y%m%d%H%i%s') AS TSKINF_RSTDT
+			,A.TSKINF_RDT
+			,B.SCHINF_DATA
+		FROM TBAG_TSKINF A
+		INNER JOIN TBAG_SCHINF B
+			ON A.SCHINF_ID = B.SCHINF_ID
+		WHERE 1=1
+		]]>
+		<if test="agentId != null and agentId != ''">
+	        <![CDATA[
+				AND B.SCHINF_AGTID 		= #{agentId}
+			]]>
+		</if>
+		<if test="status != null and status != ''">
+	        <![CDATA[
+				AND A.TSKINF_STS IN (${status})
+			]]>
+		</if>
+		<if test="scheduleId != null and scheduleId != ''">
+	        <![CDATA[
+				AND A.SCHINF_ID		= #{scheduleId}
+			]]>
+		</if>
+		<if test="userId != null and userId != ''">
+	        <![CDATA[
+				AND B.SCHINF_USRID	= #{userId}
+			]]>
+		</if>
+		<if test="certId != null and certId != ''">
+	        <![CDATA[
+	        	AND B.SCHINF_CRTID	= #{certId}
+			]]>
+		</if>
+		<if test="fcode != null and fcode != ''">
+	        <![CDATA[
+	        	AND B.SCHINF_FCD		= #{fcode}
+			]]>
+		</if>
+		<if test="module != null and module != ''">
+	        <![CDATA[
+	        	AND B.SCHINF_MDL		= #{module}
+			]]>
+		</if>
+		<if test="startTime != null and startTime != ''">
+	        <![CDATA[
+	        	AND A.TSKINF_EXCDT >= #{startTime}
+			]]>
+		</if>
+		<if test="endTime != null and endTime != ''">
+	        <![CDATA[
+	        	AND A.TSKINF_EXCDT <= #{endTime} 
+			]]>
+		</if>
+		<if test="taskId != null and taskId != ''">
+	        <![CDATA[
+	        	AND A.TSKINF_ID = #{taskId} 
+			]]>
+		</if><![CDATA[
+		ORDER BY A.TSKINF_SEQ DESC
+		LIMIT #{limit} OFFSET #{offset}
+	]]></select>
+	
+	<!-- TASK 정보 조회 - TASK ID -->
+	<select id="AGT_TSK_V1000J" parameterType="Map" resultType="oMap"><![CDATA[
+		SELECT
+			A.TSKINF_SEQ
+			,A.TSKINF_ID
+			,A.SCHINF_ID
+			,A.TSKINF_EXCDT
+			,A.TSKINF_STS
+			,A.AGTINF_ID
+			,A.TSKINF_RST
+			,DATE_FORMAT(A.TSKINF_RSTDT, '%Y%m%d%H%i%s') AS TSKINF_RSTDT
+			,A.TSKINF_RDT
+			,B.SCHINF_DATA
+		FROM TBAG_TSKINF A
+		INNER JOIN TBAG_SCHINF B
+			ON A.SCHINF_ID = B.SCHINF_ID
+		WHERE 1=1
+			AND A.TSKINF_ID 	= #{taskId}
+	]]></select>
+	
+	<!-- TASK 상태값 변경 -->
+	<update id="AGT_TSK_U1001J" parameterType="Map"><![CDATA[
+		UPDATE TBAG_TSKINF
+		SET TSKINF_STS		= #{status}
+		WHERE 1=1
+			AND TSKINF_ID 	IN (${receiveTask})
+	]]></update>
+	
+	<!-- TASK 결과 데이터 등록 -->
+	<update id="AGT_TSK_U1000J" parameterType="Map"><![CDATA[
+		UPDATE TBAG_TSKINF
+		SET AGTINF_ID		= #{agentId}
+			,TSKINF_RST		= #{result}
+			,TSKINF_RSTDT	= CURRENT_TIMESTAMP
+			,TSKINF_STS		= #{status}
+		WHERE 1=1
+			AND TSKINF_ID 	= #{taskId}
+	]]></update>
+	
+	<!-- TASK 수행 데이터 등록 -->
+	<insert id="AGT_TSK_I1000J" parameterType="Map"><![CDATA[
+		INSERT INTO TBAG_TSKINF(
+			TSKINF_SEQ
+			,TSKINF_ID
+			,SCHINF_ID
+			,TSKINF_EXCDT
+			,TSKINF_STS
+			,TSKINF_RDT
+		)VALUES(
+			 #{tskinf_seq}
+			,#{taskId}
+			,#{scheduleId}
+			,#{excdt}
+			,#{status}
+			,CURRENT_TIMESTAMP
+		)
+	]]></insert>
+	
+	<!-- Task정보 삭제 -->
+	<delete id="AGT_TSK_D1000J" parameterType="Map"><![CDATA[
+		DELETE FROM TBAG_TSKINF 
+		WHERE 1=1
+			AND SCHINF_ID 	= #{scheduleId}
+		]]><if test="status != null and status != ''">
+        <![CDATA[
+        	AND TSKINF_STS = #{status}
+		]]>
+		</if>
+	</delete>
+</mapper>

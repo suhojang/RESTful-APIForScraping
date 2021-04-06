@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE xml>
+<layout desc="스케쥴정보 조회 요청" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="./layout.xsd">
+
+	<field name="timestamp"		maxBytes="14"	required="Y"	type="C"	desc="요청시각" />
+	<field name="userId"		maxBytes="100"	required="N"	type="C"	desc="사용자 아이디" />
+	<field name="certId"		maxBytes="68"	required="N"	type="C"	desc="인증서 아이디" />
+	<field name="fcode"			maxBytes="15"	required="N"	type="C"	desc="fcode정보" />
+	<field name="module"		maxBytes="10"	required="N"	type="C"	desc="module정보" />
+	<field name="pageNo"		maxBytes="3"	required="N"	type="C"	desc="조회 페이지 번호" />
+	<field name="limit"			maxBytes="3"	required="N"	type="C"	desc="페이지당 조회 개수" />
+</layout>

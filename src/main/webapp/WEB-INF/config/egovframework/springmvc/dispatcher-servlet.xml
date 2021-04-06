@@ -1,0 +1,290 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:p="http://www.springframework.org/schema/p"
+        xmlns:context="http://www.springframework.org/schema/context"
+        xmlns:mvc="http://www.springframework.org/schema/mvc"
+        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+                http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd
+                http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd">
+
+    <context:component-scan base-package="project">
+        <context:include-filter type="annotation" expression="org.springframework.web.bind.annotation.RestController"/>
+        <context:include-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+        <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Service"/>
+        <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Repository"/>
+    </context:component-scan>
+
+    <bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter">
+        <property name="webBindingInitializer">
+            <bean class="com.kwic.web.cmmn.EgovBindingInitializer"/>
+        </property>
+    </bean>
+    <bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping">
+        <property name="interceptors">
+            <list>
+                <ref bean="localeChangeInterceptor" />
+                <ref bean="downloadInterceptor" />	<!-- 다운로드 완료확인 -->
+                <ref bean="requestTokenInterceptor" />	<!-- 중복실행 방지토큰 -->
+                <!-- <ref bean="sessionInterceptor" /> -->	<!-- 세션 -->
+                <ref bean="xssDefender" />	<!-- XSS 취약점 필터링 -->
+                <!-- <ref bean="paramValidator" /> -->	<!-- 파라미터 validator -->
+                <!-- <ref bean="menuInterceptor" /> -->	<!-- 사용자 메뉴 -->
+                <!-- <ref bean="authInterceptor" /> -->	<!-- 사용자 권한 -->
+                <!-- <ref bean="actionTracker" /> -->	<!-- action logger -->
+            </list>
+        </property>
+    </bean>
+    
+    <bean id="localeResolver" class="org.springframework.web.servlet.i18n.SessionLocaleResolver" />
+    <!-- 쿠키를 이용한 Locale 이용시 <bean id="localeResolver" class="org.springframework.web.servlet.i18n.CookieLocaleResolver"/> -->
+    <bean id="localeChangeInterceptor" class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor">
+        <property name="paramName" value="language" />
+    </bean>
+
+    <bean class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
+        <property name="defaultErrorView" value="cmmn/egovError"/>
+        <property name="exceptionMappings">
+            <props>
+                <prop key="org.springframework.dao.DataAccessException">cmmn/dataAccessFailure</prop>
+                <prop key="org.springframework.transaction.TransactionException">cmmn/transactionFailure</prop>
+                <prop key="egovframework.rte.fdl.cmmn.exception.EgovBizException">cmmn/egovError</prop>
+                <prop key="org.springframework.security.AccessDeniedException">cmmn/egovError</prop>
+            </props>
+        </property>
+    </bean>
+
+    <!-- 다운로드 완료 확인 -->
+	<bean id="downloadInterceptor" class="com.kwic.web.servlet.DownloadInterceptor">
+		<property name="filterType" value="1"/>
+		<property name="includeUrlPattern">
+			<list>
+				<value>/*E</value>
+				<value>/*D</value>
+				<value>/pdfviewer</value><!-- pdf viewer다운로드 -->
+			</list>
+		</property>
+		<property name="excludeUrlPattern">
+			<list>
+			</list>
+		</property>
+	</bean>
+
+    <!-- 세션 확인 -->
+	<bean id="sessionInterceptor" class="com.kwic.web.servlet.SessionInterceptor">
+		<property name="atrtributeName" value="USER_SESSIONS" />
+		<property name="redirectUrl" value="/error/nosession" />
+		<property name="filterType" value="1"/>
+		<property name="includeUrlPattern">
+			<list>
+				<value>/**</value>
+			</list>
+		</property>
+		<property name="excludeUrlPattern"><!-- 세션확인 예외 -->
+			<list>
+				<value>/*index</value><!-- index 화면 -->
+				<value>/*logout</value><!--로그인 화면-->
+				<value>/sessionClient</value><!-- ajax polling -->
+				<value>/pdfviewer</value><!-- pdf viewer 다운로드 -->
+				<value>/secureKeypadSeed</value><!-- secureKeypad -->
+				<value>/secureSeed</value><!-- secureKey -->
+				<value>/downloadComplete</value><!-- 다운로드 완료 확인 -->
+				<value>/error/*</value><!-- 비로그인오류,권한없음오류 -->
+				<value>/script-validator</value><!-- script validator -->
+				<value>/script-validator/*</value><!-- script validator -->
+				
+				<value>/rest/*</value><!-- 통신 -->
+				
+				<value>/TST*</value><!-- 테스트 -->
+			</list>
+		</property>
+		<property name="exceptSessionUriPattern"><!-- 접속시간 갱신 예외 -->
+			<list>
+				<value>/sessionClient</value><!-- ajax polling -->
+				<value>/pdfviewer</value><!-- pdf viewer 다운로드 -->
+				<value>/secureKeypadSeed</value><!-- secureKeypad -->
+				<value>/secureSeed</value><!-- secureKey -->
+				<value>/downloadComplete</value><!-- 다운로드 완료 확인 -->
+				
+				<value>/rest/*</value><!-- 통신 -->
+			</list>
+		</property>
+	</bean>
+    <!-- 파라미터취약점 확인 -->
+	<bean id="xssDefender" class="com.kwic.web.servlet.XssDefender">
+		<property name="filter"><!-- 파라미터 처리불가 문자열 -->
+			<value><![CDATA[select,insert,update,delete,merge,drop,declare,/*,*/,--,<iframe,&lt;iframe,javascript,<script,&lt;script]]></value>
+		</property>
+		<property name="filterType" value="1"/>
+		<property name="includeUrlPattern">
+			<list>
+				<value>/**</value>
+			</list>
+		</property>
+		<property name="excludeUrlPattern">
+			<list>
+				<!-- 해당 controller에서는 반드시 Controllers.getParam(..)로 필터링하여 파라미터 획득하세요. -->
+				<value>/printviewer/*</value><!-- html형 출력 -->
+				<value>/makeprint</value><!-- 출력용 html 생성 -->
+				<value>/makeexcel</value><!-- html형 excel 다운로드 -->
+				<value>/error/*</value><!-- 비로그인오류,권한없음오류 -->
+				
+				<value>/rest/*</value><!-- 통신 -->
+			</list>
+		</property>
+	</bean>
+    <!-- 파라미 validator -->
+	<bean id="paramValidator" class="com.kwic.web.servlet.ParamValidator">
+		<property name="validateParams" value="true"/>
+		<property name="blockUndefinedAction" value="true"/>
+		<property name="filterType" value="1"/>
+		<property name="includeUrlPattern">
+			<list>
+				<value>/**</value>
+			</list>
+		</property>
+		<property name="excludeUrlPattern">
+			<list>
+			</list>
+		</property>
+	</bean>
+ 	<!-- 사용자 메뉴 확인 -->
+	<bean id="menuInterceptor" class="com.kwic.web.servlet.MenuInterceptor">
+		<property name="attributeName" value="USER_SESSIONS" />
+		<property name="keyName" value="MENUS"/>
+		<property name="filterType" value="1"/>
+		<property name="includeUrlPattern">
+			<list>
+				<value>/*0</value>
+			</list>
+		</property>
+		<property name="excludeUrlPattern">
+			<list>
+				<value>/rest/*</value><!-- 통신 -->
+				
+				<value>/TST*</value><!-- 테스트 -->
+			</list>
+		</property>
+	</bean>
+	<!-- 사용자 요청 권한 확인 -->
+	<bean id="authInterceptor" class="com.kwic.web.servlet.AuthInterceptor">
+		<property name="attributeName" value="USER_SESSIONS" />
+		<property name="keyName" value="URIS"/>
+		<property name="redirectUrl" value="/error/unauthorized" />
+		<property name="filterType" value="1"/>
+		<property name="includeUrlPattern">
+			<list>
+				<value>/**</value>
+			</list>
+		</property>
+		<property name="excludeUrlPattern">
+			<list>
+				<value>/*index</value>
+				<value>/*logout</value>
+				<value>/pdfviewer</value>
+				<value>/sessionClient</value>
+				<value>/secureKeypadSeed</value>
+				<value>/secureSeed</value>
+				<value>/error/*</value>
+				<value>/downloadComplete</value>
+				<value>/script-validator</value><!-- script validator -->
+				<value>/script-validator/*</value><!-- script validator -->
+				
+				<value>/rest/*</value><!-- 통신 -->
+				
+				<value>/TST*</value><!-- 테스트 -->
+			</list>
+		</property>
+	</bean>
+	<!-- 이중 실행방지 -->
+	<bean id="requestTokenInterceptor" class="com.kwic.web.servlet.RequestTokenInterceptor">
+		<property name="includeUrlPattern"><!-- 이중실행방지 토큰이 필요한 화면 -->
+			<list>
+				<value>/*index</value>
+				<value>/*logout</value>
+				<value>/*0</value>
+			</list>
+		</property>
+		<property name="excludeUrlPattern"><!-- 이중실행 체크 예외 Uri -->
+			<list>
+				<value>/rest/*</value><!-- 통신 -->
+				
+				<value>/TST*</value><!-- 테스트 -->
+			</list>
+		</property>
+		<property name="checkUrlPattern"><!-- 이중실행 방지 Uri -->
+			<list>
+				<value>/*_I**A</value><!-- 입력 -->
+				<value>/*_U**A</value><!-- 수정 -->
+				<value>/*_D**A</value><!-- 삭제 -->
+			</list>
+		</property>
+	</bean>
+	<!-- 사용자 액션 logger  -->
+	<bean id="actionTracker" class="com.kwic.web.servlet.ActionTracker">
+		<property name="id" value="userActionTracker" />
+		<property name="sessionAtrtributeName" value="USER_SESSIONS" /><!-- session객체의 attribute name -->
+		<property name="keyMethodName" value="getUserId" /><!-- session객체로부터 사용자id를 획득할 수 있는 method명 -->
+		<property name="maxLength" value="30M"/><!-- 로그 분리크기 -->
+		<property name="logPath" value="D:/application_logs/welfare/track/usr.%yyyy%-%MM%-%dd%.log"/> <!-- 로그 생성 경로 -->
+		<property name="encryptParams" value="PASSWD,BF_PASSWD,AF_PASSWD,AF_PASSWD2" /><!-- 암호화가 필요한 파라미터명 목록 -->
+		<property name="filterType" value="1"/>
+		<property name="includeUrlPattern">
+			<list>
+				<value>/**</value>
+			</list>
+		</property>
+		<property name="excludeUrlPattern">
+			<list>
+				<value>/makeprint</value><!-- 출력용 html생성 -->
+				<value>/printviewer/*</value><!-- html 출력 -->
+				<value>/error/*</value><!-- 비로그인오류,권한없음오류 -->
+				<value>/sessionClient</value><!-- ajax polling -->
+				<value>/secureKeypadSeed</value><!-- secureKeypad -->
+				<value>/secureSeed</value><!-- secureKey -->
+				<value>/downloadComplete</value><!-- secureKey -->
+				<value>/script-validator</value><!-- script validator -->
+				<value>/script-validator/*</value><!-- script validator -->
+				
+				<value>/rest/*</value><!-- 통신 -->
+				
+				<value>/TST*</value><!-- 테스트 -->
+			</list>
+		</property>
+	</bean>
+	<!-- create jang's validator -->
+	<bean id="validatorRules" class="com.kwic.web.validator.ValidatorRules" factory-method="getInstance" lazy-init="false"/>
+	
+    <bean class="org.springframework.web.servlet.view.UrlBasedViewResolver" p:order="1"
+	    p:viewClass="org.springframework.web.servlet.view.JstlView"
+	    p:prefix="/WEB-INF/jsp/project" p:suffix=".jsp"/>
+
+    <!-- For Pagination Tag -->
+    <!-- 
+    <bean id="imageRenderer" class="com.kwic.web.cmmn.EgovImgPaginationRenderer"/>
+    <bean id="paginationManager" class="egovframework.rte.ptl.mvc.tags.ui.pagination.DefaultPaginationManager">
+        <property name="rendererType">
+            <map>
+                <entry key="image" value-ref="imageRenderer"/>
+            </map>
+        </property>
+    </bean>
+     -->
+	<!-- /For Pagination Tag -->
+
+    <!-- <mvc:view-controller path="/cmmn/validator.do" view-name="cmmn/validator"/>  -->
+    
+ 	<!-- if WebSocket enabled : websocket -->
+ 	<!-- 
+    <websocket:handlers>
+        <websocket:mapping path="/wsmsg" handler="webSocketHandler"/>
+		<websocket:handshake-interceptors>
+			<bean class="org.springframework.web.socket.server.support.HttpSessionHandshakeInterceptor"/>
+		</websocket:handshake-interceptors>
+    </websocket:handlers>
+    <bean id="webSocketHandler" class="com.kwic.web.websocket.WebSocketHandler"/>
+    <bean class="org.springframework.web.socket.server.standard.ServletServerContainerFactoryBean">
+        <property name="maxTextMessageBufferSize" value="8192"/>
+        <property name="maxBinaryMessageBufferSize" value="8192"/>
+    </bean> 	
+	 -->
+</beans>

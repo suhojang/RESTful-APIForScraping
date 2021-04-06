@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
+	
+<xsd:element name="validator">
+	<xsd:complexType>
+    	<xsd:sequence>
+			<xsd:choice minOccurs="0" maxOccurs="unbounded">
+	        	<xsd:element name="form" minOccurs="0" maxOccurs="1" type="formType"/>
+	        	<xsd:element name="action" minOccurs="0" maxOccurs="unbounded" type="actionType"/>
+	        	<xsd:element name="ref" minOccurs="0" maxOccurs="unbounded" type="refType"/>
+        	</xsd:choice>
+        </xsd:sequence>
+		<xsd:attribute name="desc" type="xsd:string"/>
+	</xsd:complexType>
+</xsd:element>
+
+<xsd:complexType name="formType">
+	<xsd:sequence>
+		<xsd:element name="input" minOccurs="0" maxOccurs="unbounded">
+			<xsd:complexType>
+				<xsd:attribute name="id" type="xsd:string" use="required"/>
+				<xsd:attribute name="type" default="any">
+					<xsd:simpleType>
+						<xsd:restriction base="xsd:string">
+							<xsd:enumeration value="any"/><!-- any string -->
+							<xsd:enumeration value="en"/><!-- english only -->
+							<xsd:enumeration value="enS"/><!-- english small char only -->
+							<xsd:enumeration value="enB"/><!-- english Big char only -->
+							<xsd:enumeration value="numEn"/><!-- english, number -->
+							<xsd:enumeration value="plong"/><!-- positive number -->
+							<xsd:enumeration value="nlong"/><!-- negative number -->
+							<xsd:enumeration value="long"/><!-- number(positive & negative) -->
+							<xsd:enumeration value="pdouble"/><!-- positive double only(contains long) -->
+							<xsd:enumeration value="ndouble"/><!-- negative double only(contains long) -->
+							<xsd:enumeration value="double"/><!-- double only(contains long) -->
+							<xsd:enumeration value="pcurrency"/><!-- positive currency(long with ,) -->
+							<xsd:enumeration value="ncurrency"/><!-- negative currency(long with ,) -->
+							<xsd:enumeration value="currency"/><!-- currency(long with ,) -->
+							<xsd:enumeration value="pdblcurrency"/><!-- positive double currency(double with ,) -->
+							<xsd:enumeration value="ndblcurrency"/><!-- negative double currency(double with ,) -->
+							<xsd:enumeration value="dblcurrency"/><!-- currency(double with ,) -->
+							<xsd:enumeration value="email1"/><!-- First half of email -->
+							<xsd:enumeration value="email2"/><!-- The latter part of the email -->
+							<xsd:enumeration value="email"/><!-- email -->
+							<xsd:enumeration value="phone1"/><!-- phone number -->
+							<xsd:enumeration value="phone2"/><!-- phone number -->
+							<xsd:enumeration value="phone3"/><!-- phone number -->
+							<xsd:enumeration value="phone"/><!-- phone number -->
+							<xsd:enumeration value="mobile1"/><!-- mobile number -->
+							<xsd:enumeration value="mobile2"/><!-- mobile number -->
+							<xsd:enumeration value="mobile3"/><!-- mobile number -->
+							<xsd:enumeration value="mobile"/><!-- mobile number -->
+							<xsd:enumeration value="date"/><!-- must require dateFormat -->
+							<xsd:enumeration value="time"/><!-- must require dateFormat -->
+							<xsd:enumeration value="datetime"/><!-- must require dateFormat -->
+							<xsd:enumeration value="ascii"/><!-- ascii only(1~127) -->
+						</xsd:restriction>
+					</xsd:simpleType>
+				</xsd:attribute>
+				<xsd:attribute name="maxlength" type="xsd:int"/>
+				<xsd:attribute name="readonly" type="xsd:boolean" default="false"/>
+				<xsd:attribute name="disabled" type="xsd:boolean" default="false"/>
+				<xsd:attribute name="placeholder" type="xsd:string"/>
+				<xsd:attribute name="value" type="xsd:string"/>
+				<xsd:attribute name="title" type="xsd:string"/>
+				<xsd:attribute name="desc" type="xsd:string"/>
+			</xsd:complexType>
+		</xsd:element>
+	</xsd:sequence>
+</xsd:complexType>        	
+
+<xsd:complexType name="actionType">
+	<xsd:sequence>
+		<xsd:element name="param" minOccurs="0" maxOccurs="unbounded">
+			<xsd:complexType>
+				<xsd:attribute name="id" type="xsd:string" use="required"/>
+				<xsd:attribute name="type" default="any">
+					<xsd:simpleType>
+						<xsd:restriction base="xsd:string">
+							<xsd:enumeration value="any"/><!-- any string -->
+							<xsd:enumeration value="en"/><!-- english only -->
+							<xsd:enumeration value="enS"/><!-- english small char only -->
+							<xsd:enumeration value="enB"/><!-- english Big char only -->
+							<xsd:enumeration value="numEn"/><!-- english, number -->
+							<xsd:enumeration value="plong"/><!-- positive number -->
+							<xsd:enumeration value="nlong"/><!-- negative number -->
+							<xsd:enumeration value="long"/><!-- number(positive & negative) -->
+							<xsd:enumeration value="pdouble"/><!-- positive double only(contains long) -->
+							<xsd:enumeration value="ndouble"/><!-- negative double only(contains long) -->
+							<xsd:enumeration value="double"/><!-- double only(contains long) -->
+							<xsd:enumeration value="pcurrency"/><!-- positive currency(long with ,) -->
+							<xsd:enumeration value="ncurrency"/><!-- negative currency(long with ,) -->
+							<xsd:enumeration value="currency"/><!-- currency(long with ,) -->
+							<xsd:enumeration value="pdblcurrency"/><!-- positive double currency(double with ,) -->
+							<xsd:enumeration value="ndblcurrency"/><!-- negative double currency(double with ,) -->
+							<xsd:enumeration value="dblcurrency"/><!-- double currency(double with ,) -->
+							<xsd:enumeration value="email1"/><!-- First half of email -->
+							<xsd:enumeration value="email2"/><!-- The latter part of the email -->
+							<xsd:enumeration value="email"/><!-- email -->
+							<xsd:enumeration value="phone1"/><!-- phone number -->
+							<xsd:enumeration value="phone2"/><!-- phone number -->
+							<xsd:enumeration value="phone3"/><!-- phone number -->
+							<xsd:enumeration value="phone"/><!-- phone number -->
+							<xsd:enumeration value="mobile1"/><!-- mobile number -->
+							<xsd:enumeration value="mobile2"/><!-- mobile number -->
+							<xsd:enumeration value="mobile3"/><!-- mobile number -->
+							<xsd:enumeration value="mobile"/><!-- mobile number -->
+							<xsd:enumeration value="date"/><!-- must require dateFormat -->
+							<xsd:enumeration value="time"/><!-- must require dateFormat -->
+							<xsd:enumeration value="datetime"/><!-- must require dateFormat -->
+							<xsd:enumeration value="ascii"/><!-- ascii only(1~127) -->
+							<xsd:enumeration value="user"/><!-- user defined regular expression, must require rexp & typeName -->
+						</xsd:restriction>
+					</xsd:simpleType>
+				</xsd:attribute>
+				<xsd:attribute name="required" type="xsd:boolean" default="false"/>
+				<xsd:attribute name="minBytes" type="xsd:int" default="0"/>
+				<xsd:attribute name="maxBytes" type="xsd:int"/>
+				<xsd:attribute name="fixBytes" type="xsd:int"/>
+				<xsd:attribute name="dateFormat">
+					<xsd:simpleType>
+						<xsd:restriction base="xsd:string">
+							<xsd:pattern value="[y]{0,4}[M]{0,2}[d]{0,2}[H]{0,2}[m]{0,2}[s]{0,2}[S]{0,3}"/><!-- yyyyMMddHHmmssSSS -->
+						</xsd:restriction>
+					</xsd:simpleType>
+				</xsd:attribute>
+				<xsd:attribute name="minValue" type="xsd:string"/><!-- parameter min value ex: 1, {sysdate-1}, .. -->
+				<xsd:attribute name="maxValue" type="xsd:string"/><!-- parameter max value ex: 100, {sysdate+1}, .. -->
+				<xsd:attribute name="desc" type="xsd:string"/><!-- parameter description -->
+				<xsd:attribute name="focus" type="xsd:boolean"/><!-- move focus when invalidate -->
+				<xsd:attribute name="target" type="xsd:string"/><!-- target object id -->
+				<xsd:attribute name="rexp" type="xsd:string"/><!-- user defined regular expression -->
+				<xsd:attribute name="typeName" type="xsd:string"/><!-- user defined regular expression's title -->
+				<xsd:attribute name="encoding"><!-- parameter encoding -->
+					<xsd:simpleType>
+						<xsd:restriction base="xsd:string">
+							<xsd:enumeration value="euc-kr"/>
+							<xsd:enumeration value="utf-8"/>
+							<xsd:enumeration value="utf8"/>
+						</xsd:restriction>
+					</xsd:simpleType>
+				</xsd:attribute>
+  				</xsd:complexType>
+		</xsd:element>
+	</xsd:sequence>
+	<xsd:attribute name="uri" type="xsd:string" use="required"/><!-- request uri -->
+	<xsd:attribute name="encoding" default="utf-8"><!-- parameter encoding -->
+		<xsd:simpleType>
+			<xsd:restriction base="xsd:string">
+				<xsd:enumeration value="euc-kr"/>
+				<xsd:enumeration value="utf-8"/>
+				<xsd:enumeration value="utf8"/>
+			</xsd:restriction>
+		</xsd:simpleType>
+	</xsd:attribute>
+	<xsd:attribute name="desc" type="xsd:string"/>
+	<xsd:attribute name="blockUndefined" default="false" type="xsd:boolean"/>
+</xsd:complexType>
+
+<xsd:complexType name="refType">
+	<xsd:attribute name="uri" type="xsd:string" use="required"/><!-- request uri -->
+</xsd:complexType>
+
+</xsd:schema>

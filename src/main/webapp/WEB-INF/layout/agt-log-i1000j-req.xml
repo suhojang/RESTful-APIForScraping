@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE xml>
+<layout desc="Agent로그 등록 요청" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="./layout.xsd">
+
+	<field name="TIMESTAMP"		maxBytes="20"	required="Y"	type="C"	desc="client 시스템 시간" />
+	<field name="SYSTEM"		maxBytes="50"	required="Y"	type="C"	desc="시스템구분" />
+	<field name="LOGTYPE"		maxBytes="50"	required="Y"	type="C"	desc="로그종류" />
+	<field name="AGENTID"		maxBytes="36"	required="N"	type="C"	desc="relayAgent 는 필수, agentBE 는 null" />
+	<field name="USERID"		maxBytes="100"	required="N"	type="C"	desc="USERID 가 특정되는 경우" />
+	<field name="CERTID"		maxBytes="68"	required="N"	type="C"	desc="CERTID 가 특정되는 경우" />
+	<field name="TASKID"		maxBytes="100"	required="N"	type="C"	desc="TASKID 가 특정되는 경우" />
+	<field name="MESSAGE"		maxBytes="99999"	required="Y"	type="C"	desc="일반적인 로그 데이터, 현재는 특별히 규칙이 없음." />
+</layout>

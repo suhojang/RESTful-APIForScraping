@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="project.service.impl.AGT_SCH_Mapper">
+	<!-- 스케쥴 조회 -->
+	<select id="AGT_SCH_S1000J" parameterType="Map" resultType="oMap"><![CDATA[
+		SELECT
+			SCHINF_SEQ
+			,SCHINF_ID
+			,SCHINF_USRID
+			,SCHINF_CRTID
+			,SCHINF_FCD
+			,SCHINF_MDL
+			,SCHINF_KN
+			,SCHINF_CRON
+			,SCHINF_DATA
+			,SCHINF_YN
+			,SCHINF_RDT
+			,SCHINF_UDT
+		FROM TBAG_SCHINF
+		WHERE 1=1
+			AND SCHINF_YN = 'Y'
+		]]>
+		<if test="scheduleId != null and scheduleId != ''">
+	        <![CDATA[
+				AND SCHINF_ID		= #{scheduleId}
+			]]>
+		</if>
+		<if test="userId != null and userId != ''">
+	        <![CDATA[
+				AND SCHINF_USRID	= #{userId}
+			]]>
+		</if>
+		<if test="certId != null and certId != ''">
+	        <![CDATA[
+	        	AND SCHINF_CRTID	= #{certId}
+			]]>
+		</if>
+		<if test="fcode != null and fcode != ''">
+	        <![CDATA[
+	        	AND SCHINF_FCD		= #{fcode}
+			]]>
+		</if>
+		<if test="module != null and module != ''">
+	        <![CDATA[
+	        	AND SCHINF_MDL		= #{module}
+			]]>
+		</if><![CDATA[
+		ORDER BY SCHINF_SEQ DESC
+       	LIMIT #{limit} OFFSET #{offset}
+		]]>
+	</select>
+	
+	<!-- 스케쥴 정보 조회 - 스케쥴 ID -->
+	<select id="AGT_SCH_V1000J" parameterType="Map" resultType="oMap"><![CDATA[
+		SELECT
+			SCHINF_SEQ
+			,SCHINF_ID
+			,SCHINF_USRID
+			,SCHINF_CRTID
+			,SCHINF_FCD
+			,SCHINF_MDL
+			,SCHINF_KN
+			,SCHINF_CRON
+			,SCHINF_DATA
+			,SCHINF_YN
+			,SCHINF_RDT
+			,SCHINF_UDT
+		FROM TBAG_SCHINF
+		WHERE 1=1
+			AND SCHINF_YN 	= 'Y'
+			AND SCHINF_ID 	= #{scheduleId}
+	]]></select>
+	
+	<!-- 스케쥴정보 등록 -->
+	<insert id="AGT_SCH_I1000J" parameterType="Map"><![CDATA[
+		INSERT INTO TBAG_SCHINF(
+			SCHINF_SEQ
+			,SCHINF_ID
+			,SCHINF_USRID
+			,SCHINF_CRTID
+			,SCHINF_AGTID
+			,SCHINF_FCD
+			,SCHINF_MDL
+			,SCHINF_KN
+			,SCHINF_CRON
+			,SCHINF_DATA
+			,SCHINF_YN
+			,SCHINF_RDT
+		)VALUES(
+			 #{schinf_seq}
+			,#{scheduleId}
+			,#{userId}
+			,#{certId}
+			,#{agentId}
+			,#{fcode}
+			,#{module}
+			,#{kind}
+			,#{cron}
+			,#{data}
+			,'Y'
+			,CURRENT_TIMESTAMP
+		)
+	]]></insert>
+	
+	<!-- 스케쥴정보 수정 -->
+	<update id="AGT_SCH_U1000J" parameterType="Map"><![CDATA[
+		UPDATE TBAG_SCHINF
+		SET SCHINF_USRID	= #{userId}
+			,SCHINF_CRTID	= #{certId}
+			,SCHINF_FCD		= #{fcode}
+			,SCHINF_MDL		= #{module}
+			,SCHINF_KN		= #{kind}
+			,SCHINF_CRON	= #{cron}
+			,SCHINF_DATA	= #{data}
+			,SCHINF_UDT		= CURRENT_TIMESTAMP
+		WHERE 1=1
+			AND SCHINF_ID 	= #{scheduleId}
+	]]></update>
+	
+	<!-- 스케쥴정보 삭제 -->
+	<delete id="AGT_SCH_D1000J" parameterType="Map"><![CDATA[
+		DELETE FROM TBAG_SCHINF 
+		WHERE 1=1
+			AND SCHINF_ID 	= #{scheduleId}
+	]]></delete>
+	
+	
+	<!-- Task 할당 스케쥴 정보 조회 -->
+	<select id="AGT_SCH_S3000J" parameterType="Map" resultType="oMap"><![CDATA[
+		SELECT
+			SCHINF_SEQ
+			,SCHINF_ID
+			,SCHINF_USRID
+			,SCHINF_CRTID
+			,SCHINF_FCD
+			,SCHINF_MDL
+			,SCHINF_KN
+			,SCHINF_CRON
+			,SCHINF_DATA
+			,SCHINF_YN
+			,SCHINF_RDT
+			,SCHINF_UDT
+		FROM TBAG_SCHINF A
+		WHERE 1=1
+			AND A.SCHINF_YN = 'Y'
+        	AND A.SCHINF_KN	= #{kind}
+        	AND A.SCHINF_ID NOT IN (
+				SELECT
+					SCHINF_ID
+				FROM TBAG_TSKINF
+				WHERE 1=1
+					AND TSKINF_EXCDT >= DATE_FORMAT(NOW(), '%Y%m%d%H%i%s')
+					AND SCHINF_ID = A.SCHINF_ID
+			)
+		ORDER BY SCHINF_SEQ DESC
+		]]>
+	</select>
+</mapper>

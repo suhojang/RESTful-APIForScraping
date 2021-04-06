@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE xml>
+<Configuration>
+    <Appenders>
+        <Console name="console" target="SYSTEM_OUT">
+            <PatternLayout pattern="%d %5p [%c] %m%n" />
+        </Console>
+		<RollingFile name="rollingFile" fileName="/app/tomcat9/webapps/ROOT/logs/apps.log" filePattern="/app/tomcat9/webapps/ROOT/logs/apps.%d{yyyy-MM-dd}-%i.log">
+			<PatternLayout pattern="%d %5p [%c] %m%n" />
+			<Policies>
+				<TimeBasedTriggeringPolicy />
+				<SizeBasedTriggeringPolicy size="10 MB"/>
+			</Policies>
+		</RollingFile>
+		<RollingFile name="errorFile" fileName="/app/tomcat9/webapps/ROOT/logs/error.log" filePattern="/app/tomcat9/webapps/ROOT/logs/error.%d{yyyy-MM-dd}-%i.log">
+			<PatternLayout pattern="%d %5p [%c] %m%n" />
+			<Policies>
+				<TimeBasedTriggeringPolicy />
+				<SizeBasedTriggeringPolicy size="10 MB"/>
+			</Policies>
+		</RollingFile>
+		
+		<RollingFile name="filebeatFile" fileName="/app/tomcat9/webapps/ROOT/filebeat/relayAgent.log" filePattern="/app/tomcat9/webapps/ROOT/filebeat/error.%d{yyyy-MM-dd}-%i.log">
+			<!-- <PatternLayout pattern="%d %5p [%c] %m%n" /> -->
+			<Policies>
+				<TimeBasedTriggeringPolicy />
+				<SizeBasedTriggeringPolicy size="10 MB"/>
+			</Policies>
+		</RollingFile>
+    </Appenders>
+    <Loggers>
+        <Logger name="com.kwic" level="DEBUG" additivity="true">
+			<AppenderRef ref="rollingFile"/>
+        </Logger>
+        <Logger name="project" level="DEBUG" additivity="true">
+			<AppenderRef ref="rollingFile"/>
+        </Logger>
+        <Logger name="egovframework" level="WARN" additivity="true">
+			<AppenderRef ref="rollingFile"/>
+        </Logger>
+        <Logger name="jdbc.sqltiming" level="WARN" additivity="true">
+			<AppenderRef ref="rollingFile"/>
+        </Logger>
+        <Logger name="org.springframework" level="WARN" additivity="true">
+            <AppenderRef ref="console" />
+        </Logger>
+        <Logger name="org.apache" level="WARN" additivity="true">
+            <AppenderRef ref="console" />
+        </Logger>
+        <Logger name="org.mybatis" level="WARN" additivity="true">
+            <AppenderRef ref="console" />
+        </Logger>
+        <Logger name="java.sql" level="WARN" additivity="true">
+			<AppenderRef ref="rollingFile"/>
+        </Logger>
+        <Logger name="error" level="ERROR" additivity="true">
+            <AppenderRef ref="console" />
+			<AppenderRef ref="errorFile"/>
+        </Logger>
+        
+        <Logger name="filebeat" level="DEBUG" additivity="true">
+            <AppenderRef ref="filebeatFile" />
+        </Logger>
+        
+        <Root level="DEBUG">
+            <AppenderRef ref="console" />
+        </Root>
+    </Loggers>
+</Configuration>

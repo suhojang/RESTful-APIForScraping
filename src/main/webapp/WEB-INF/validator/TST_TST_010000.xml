@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE xml>
+<validator desc="테스트 parameter validator" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="./params-validator.xsd">
+	<!-- 화면상의 input 객체에 대한 입력가능문자 제어 -->
+	<form>
+		<input id="p0"	type="en"				maxlength="4"	readonly="false"	disabled="false"	placeholder="en"			title="en"				desc="en"				/>
+		<input id="p1"	type="enS"				maxlength="20"	readonly="false"	disabled="false"	placeholder="enS"			title="enS"				desc="enS"				/>
+		<input id="p2"	type="enB"				maxlength="20"	readonly="false"	disabled="false"	placeholder="enB"			title="enB"				desc="enB"				/>
+		<input id="p3"	type="numEn"			maxlength="20"	readonly="false"	disabled="false"	placeholder="numEn"			title="numEn"			desc="numEn"			/>
+		<input id="p4"	type="plong"			maxlength="20"	readonly="false"	disabled="false"	placeholder="plong"			title="plong"			desc="plong"			/>
+		<input id="p5"	type="nlong"			maxlength="20"	readonly="false"	disabled="false"	placeholder="nlong"			title="nlong"			desc="nlong"			/>
+		<input id="p6"	type="long"				maxlength="20"	readonly="false"	disabled="false"	placeholder="long"			title="long"			desc="long"				/>
+		<input id="p7"	type="pdouble"			maxlength="20"	readonly="false"	disabled="false"	placeholder="pdouble"		title="pdouble"			desc="pdouble"			/>
+		<input id="p8"	type="ndouble"			maxlength="20"	readonly="false"	disabled="false"	placeholder="ndouble"		title="ndouble"			desc="ndouble"			/>
+		<input id="p9"	type="double"			maxlength="20"	readonly="false"	disabled="false"	placeholder="double"		title="double"			desc="double"			/>
+		<input id="p10"	type="pcurrency"		maxlength="20"	readonly="false"	disabled="false"	placeholder="pcurrency"		title="pcurrency"		desc="pcurrency"		/>
+		<input id="p11"	type="ncurrency"		maxlength="20"	readonly="false"	disabled="false"	placeholder="ncurrency"		title="ncurrency"		desc="ncurrency"		/>
+		<input id="p12"	type="currency"			maxlength="20"	readonly="false"	disabled="false"	placeholder="currency"		title="currency"		desc="currency"			/>
+		<input id="p13"	type="dblcurrency"		maxlength="20"	readonly="false"	disabled="false"	placeholder="dblcurrency"	title="dblcurrency"		desc="dblcurrency"		/>
+		
+		<input id="p14"	type="email1"			maxlength="20"	readonly="false"	disabled="false"	placeholder="email1"		title="email1"			desc="email1"			/>
+		<input id="p15"	type="email2"			maxlength="20"	readonly="false"	disabled="false"	placeholder="email2"		title="email2"			desc="email2"			/>
+		<input id="p16"	type="email"			maxlength="50"	readonly="false"	disabled="false"	placeholder="email"			title="email"			desc="email"			/>
+		<input id="p17"	type="phone1"			maxlength="4"	readonly="false"	disabled="false"	placeholder="phone1"		title="phone1"			desc="phone1"			/>
+		<input id="p18"	type="phone2"			maxlength="4"	readonly="false"	disabled="false"	placeholder="phone2"		title="phone2"			desc="phone2"			/>
+		<input id="p19"	type="phone3"			maxlength="4"	readonly="false"	disabled="false"	placeholder="phone3"		title="phone3"			desc="phone3"			/>
+		<input id="p20"	type="phone"			maxlength="14"	readonly="false"	disabled="false"	placeholder="phone"			title="phone"			desc="phone"			/>
+		<input id="p21"	type="mobile1"			maxlength="3"	readonly="false"	disabled="false"	placeholder="mobile1"		title="mobile1"			desc="mobile1"			/>
+		<input id="p22"	type="mobile2"			maxlength="4"	readonly="false"	disabled="false"	placeholder="mobile2"		title="mobile2"			desc="mobile2"			/>
+		<input id="p23"	type="mobile3"			maxlength="4"	readonly="false"	disabled="false"	placeholder="mobile3"		title="mobile3"			desc="mobile3"			/>
+		<input id="p24"	type="mobile"			maxlength="14"	readonly="false"	disabled="false"	placeholder="mobile"		title="mobile"			desc="mobile"			/>
+		<input id="p25"	type="date"				maxlength="10"	readonly="false"	disabled="false"	placeholder="date"			title="date"			desc="date"				/>
+		<input id="p26"	type="time"				maxlength="5"	readonly="false"	disabled="false"	placeholder="time"			title="time"			desc="time"				/>
+		<input id="p27"	type="datetime"			maxlength="23"	readonly="false"	disabled="false"	placeholder="datetime"		title="datetime"		desc="datetime"			/>
+		
+		<input id="p28"	type="ascii"			maxlength="20"	readonly="false"	disabled="false"	placeholder="ascii"			title="ascii"			desc="ascii"			/>
+		<input id="p29"	type="any"				maxlength="20"	readonly="false"	disabled="false"	placeholder="any"			title="any"				desc="any"				/>
+		<input id="p30"	type="pdblcurrency"		maxlength="20"	readonly="false"	disabled="false"	placeholder="pdblcurrency"	title="pdblcurrency"	desc="pdblcurrency"		/>
+		<input id="p31"	type="ndblcurrency"		maxlength="20"	readonly="false"	disabled="false"	placeholder="ndblcurrency"	title="ndblcurrency"	desc="ndblcurrency"		/>
+	</form>
+	
+	<!-- 화면에서 발생하는 모든 server action에 대한 parameter validation -->
+	<action uri="/TST_TST_01000A" desc="테스트  요청" encoding="utf-8" blockUndefined="true">
+		<param id="p0"	type="en"				required="true"	fixBytes="4"					focus="true"	target="p0"		desc="en"				/>
+		<param id="p1"	type="enS"				required="true"	minBytes="4"	maxBytes="15"	focus="true"	target="p1"		desc="enS"				/>
+		<param id="p2"	type="enB"				required="true"	minBytes="4"	maxBytes="15"	focus="true"	target="p2"		desc="enB"				/>
+		<param id="p3"	type="numEn"			required="true"	minBytes="4"	maxBytes="15"	focus="true"	target="p3"		desc="numEn"			/>
+		<param id="p4"	type="plong"			required="true"	minBytes="4"	maxBytes="15"	focus="true"	target="p4"		desc="plong"			minValue="10000" maxValue="99847"/>
+		<param id="p5"	type="nlong"			required="true"	minBytes="4"	maxBytes="15"	focus="true"	target="p5"		desc="nlong"			/>
+		<param id="p6"	type="long"				required="true"	minBytes="4"	maxBytes="15"	focus="true"	target="p6"		desc="long"				/>
+		<param id="p7"	type="pdouble"			required="true"	minBytes="4"	maxBytes="15"	focus="true"	target="p7"		desc="pdouble"			/>
+		<param id="p8"	type="ndouble"			required="true"	minBytes="4"	maxBytes="15"	focus="true"	target="p8"		desc="ndouble"			/>
+		<param id="p9"	type="double"			required="true"	minBytes="4"	maxBytes="15"	focus="true"	target="p9"		desc="double"			/>
+		<param id="p10"	type="pcurrency"		required="true"	minBytes="4"	maxBytes="15"	focus="true"	target="p10"	desc="pcurrency"		/>
+		<param id="p11"	type="ncurrency"		required="true"	minBytes="4"	maxBytes="15"	focus="true"	target="p11"	desc="ncurrency"		/>
+		<param id="p12"	type="currency"			required="true"	minBytes="4"	maxBytes="15"	focus="true"	target="p12"	desc="currency"			/>
+		<param id="p13"	type="dblcurrency"		required="true"	minBytes="4"	maxBytes="15"	focus="true"	target="p13"	desc="dblcurrency"		/>
+		
+		<param id="p14"	type="email1"			required="true"	minBytes="2"	maxBytes="20"	focus="true"	target="p14"	desc="email1"			/>
+		<param id="p15"	type="email2"			required="true"	minBytes="2"	maxBytes="20"	focus="true"	target="p15"	desc="email2"			/>
+		<param id="p16"	type="email"			required="true"	minBytes="5"	maxBytes="50"	focus="true"	target="p16"	desc="email"			/>
+		<param id="p17"	type="phone1"			required="true"	minBytes="2"	maxBytes="4"	focus="true"	target="p17"	desc="phone1"			/>
+		<param id="p18"	type="phone2"			required="true"	minBytes="3"	maxBytes="4"	focus="true"	target="p18"	desc="phone2"			/>
+		<param id="p19"	type="phone3"			required="true"	fixBytes="4"					focus="true"	target="p19"	desc="phone3"			/>
+		<param id="p20"	type="phone"			required="true"	minBytes="9"	maxBytes="14"	focus="true"	target="p20"	desc="phone"			/>
+		<param id="p21"	type="mobile1"			required="true"	fixBytes="3"					focus="true"	target="p21"	desc="mobile1"			/>
+		<param id="p22"	type="mobile2"			required="true"	minBytes="3"	maxBytes="4"	focus="true"	target="p22"	desc="mobile2"			/>
+		<param id="p23"	type="mobile3"			required="true"	fixBytes="4"					focus="true"	target="p23"	desc="mobile3"			/>
+		<param id="p24"	type="mobile"			required="true"	minBytes="9"	maxBytes="14"	focus="true"	target="p24"	desc="mobile"			/>
+		<param id="p25"	type="date"				required="true"	minBytes="4"	maxBytes="10"	focus="true"	target="p25"	desc="date"				dateFormat="yyyyMMdd"	minValue="20190101" maxValue="${sysdate}+1${M}"/>
+		<param id="p26"	type="time"				required="true"	minBytes="4"	maxBytes="5"	focus="true"	target="p26"	desc="time"				dateFormat="HHmm" minValue="${sysdate}-1${h}" maxValue="${sysdate}+1${m}"/>
+		<param id="p27"	type="datetime"			required="true"	minBytes="2"	maxBytes="23"	focus="true"	target="p27"	desc="datetime"			dateFormat="yyyyMMddHHmmssSSS"/>
+		
+		<param id="p28"	type="ascii"			required="true"	minBytes="4"	maxBytes="15"	focus="true"	target="p28"	desc="ascii"			/>
+		<param id="p29"	type="any"				required="true"	minBytes="4"	maxBytes="15"	focus="true"	target="p29"	desc="any"				/>
+		<param id="p30"	type="pdblcurrency"		required="true"	minBytes="4"	maxBytes="15"	focus="true"	target="p30"	desc="pdblcurrency"		/>
+		<param id="p31"	type="ndblcurrency"		required="true"	minBytes="4"	maxBytes="15"	focus="true"	target="p31"	desc="ndblcurrency"		/>
+	</action>
+	
+	<ref uri="/TST_TST_02000A"/>
+	
+</validator>
