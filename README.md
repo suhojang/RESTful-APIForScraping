@@ -6,6 +6,7 @@
 + ROLE
   + Spring RestController의 GET,POST,PUT,DELETE METHOD를 활용하여 업무별 특성에 맞는 기능 구현
   + ThreadPoolTaskScheduler를 이용한 Scraping Schedule Task 생성 기능 구현
+  + Request Data Validate를 위한 Filter 기능 구현 (xsd, xml 활용)
   + Server Architecture Design
   + WBS Management
   + RESTful API Development
