@@ -1,7 +1,14 @@
 ### Scraping을 위한 RESTFull API Server
 
 + INTRO
-  + Client(Client Side)와 정보 동기화 및 Task 조회/수행결과 정보 동기화를 목적으로 개발
+  + Client(Client Side)와 정보 동기화 및 Scraping Task 조회/수행결과 정보 동기화를 목적으로 개발
+ 
++ ROLE
+  + Spring RestController의 GET,POST,PUT,DELETE METHOD를 활용하여 업무별 특성에 맞는 기능 구현
+  + ThreadPoolTaskScheduler를 이용한 Scraping Schedule Task 생성 기능 구현
+  + Server Architecture Design
+  + WBS Management
+  + RESTful API Development
 
 + ETC
   + Developer 환경
