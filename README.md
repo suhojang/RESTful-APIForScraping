@@ -1,7 +1,7 @@
 ### Scraping을 위한 RESTFull API Server
 
 + INTRO
-  + 
+  + Client(Client Side)와 정보 동기화 및 Task 조회/수행결과 정보 동기화를 목적으로 개발
 
 + ETC
   + Developer 환경
